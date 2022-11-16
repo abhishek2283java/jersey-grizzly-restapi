@@ -1,21 +1,25 @@
 **Overview**
-1. To start the project, go to Main and run main method.
-You should then see something like this:
+**Note: Requires MySQL Instance**
+**Can insert seed data**
+**Adjust hibernate cfg file content according to your MySQL db instance**
+
+1. To start the project, go to Main and run main method.  
+You should then see something like this:  
 Jersey app started with endpoints available at http://localhost:8080/
 
-2. Project developed using JDK 8, HK2 injection, Jersey Grizzly (no need of Tomcat), mapstruct for entity to dto conversion and vice versa, Hibernate to save data to database, MySQL 8 database instance.
+2. Project developed using JDK 8, HK2 injection, Jersey Grizzly (no need of Tomcat), mapstruct for entity to dto conversion and vice versa, Hibernate to save data to database, **MySQL 8** database instance.  
 
 3. Go to src/main/resources/hibernate.cfg.xml and adjust the entry values for the DB, userName, password, hibernate.hbm2ddl.auto
-For the very first run, make hibernate.hbm2ddl.auto as create and then change it once schema is created.
+For the very first run, make hibernate.hbm2ddl.auto as create and then change it once schema is created.  
 
 4. There is also a possibility of inserting seed data in the database. This is done by running the main method in CustomerDAO class.
 NOTE: Be careful, the main method will create 56 customer records in the database.
-The actual customer creation is done by createMultipleCustomers() method in CustomerDAO class
+The actual customer creation is done by createMultipleCustomers() method in CustomerDAO class.  
 
 **End Points**
 Entry to the api is via the endpoint: http://localhost:8080/customer-api
 
-Available end points (mostly happy paths have been implemented and a few negative paths as well);
+Available end points (mostly happy paths have been implemented and a few negative paths as well):  
 a) /register: (POST) This creates a new customer or returns the customer if it exists. EmailAddress is the primary key.  
 b) /customer?emailAddress=pagecust_1_@gmail.com: (GET) Seraches for a customer using email address and returns the customer info or customer not found message.  
 c) /customer: (PUT) Customer can update phone number (free format) and date of birth YYYY-MM-DD format when invoking the api.    
