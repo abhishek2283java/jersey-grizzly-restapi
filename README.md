@@ -26,7 +26,7 @@ Available end points (mostly happy paths have been implemented and a few negativ
 a) /register: (POST) This creates a new customer or returns the customer if it exists. EmailAddress is the primary key.  
 b) /customer?emailAddress=pagecust_1_@gmail.com: (GET) Seraches for a customer using email address and returns the customer info or customer not found message.  
 c) /customer: (PUT) Customer can update phone number (free format) and date of birth YYYY-MM-DD format when invoking the api.    
-d) /customer/pagecust_1_@gmail.com: (DELETE) De-registers a customer.
+d) /customer/pagecust_1_@gmail.com: (DELETE) De-registers a customer.  
 e) /allCustomersPaginated?page=2 (or /allCustomersPaginated): Paginated customer list from the Database. It will return first 10 records as page 1. Provide query parameter "page=2" to get the page 2 result set. 
 
 **Minor Info**  
