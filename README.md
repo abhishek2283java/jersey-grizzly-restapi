@@ -16,14 +16,33 @@ The actual customer creation is done by createMultipleCustomers() method in Cust
 Entry to the api is via the endpoint: http://localhost:8080/customer-api
 
 Available end points (mostly happy paths have been implemented and a few negative paths as well);
-a) CREATE NEW CUSTOMER(POST): /register (this creates a new customer or returns the customer if it exists. EmailAddress is the primary key)
-b) GET: /customer?emailAddress=pagecust_1_@gmail.com
-c) PUT/UPDATE: /customer (Customer can update phone number (free format) and date of birth YYYY-MM-DD format when invoking the api)
-d) DELETE: /customer/pagecust_1_@gmail.com
-e) /allCustomersPaginated?page=2 (or /allCustomersPaginated will return first 10 records i.e. page 1)
+a) /register: (POST) This creates a new customer or returns the customer if it exists. EmailAddress is the primary key.  
+b) /customer?emailAddress=pagecust_1_@gmail.com: (GET) Seraches for a customer using email address and returns the customer info or customer not found message.  
+c) /customer: (PUT) Customer can update phone number (free format) and date of birth YYYY-MM-DD format when invoking the api.    
+d) /customer/pagecust_1_@gmail.com: (DELETE) De-registers a customer.
+e) /allCustomersPaginated?page=2 (or /allCustomersPaginated): Paginated customer list from the Database. It will return first 10 records as page 1. Provide query parameter "page=2" to get the page 2 result set. 
 
+**Minor Info**
 HTTP Status code is also sent in response.
 Also one header is sent in some cases (just for trial)
+
+**Example JSON**
+POST request:  
+{
+    "customerName": "John Doe",
+    "emailAddress": "johndoe4@gmail.com",
+    "phoneNumber": "0046739182157",
+    "dateOfBirth": "2012-10-20"
+}
+
+GET Response:  
+{
+    "active": true,
+    "customerName": "John Doe II",
+    "dateOfBirth": "2010-06-12",
+    "emailAddress": "johndoe3@gmail.com",
+    "phoneNumber": "001800500400"
+    }
 
 **Rainy Day Scenarios**
 1. If a customer doesn't exist while searching, removing(de-registering) then return proper exception. (Works in postman and rest client in the test class)
