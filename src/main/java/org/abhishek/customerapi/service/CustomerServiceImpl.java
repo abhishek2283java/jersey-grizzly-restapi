@@ -47,6 +47,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
+	@Deprecated
 	public Customer updateCustomer(String emailAddress, String phoneNumber) {
 		System.out.println("Customer Service Impl updateCustomer called");
 		Customer updatedCustomer = customerDAO.updateCustomer(emailAddress, phoneNumber);

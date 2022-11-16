@@ -91,7 +91,14 @@ public class CustomerDAO {
 		}
 		return savedCustomer;
 	}
-
+	
+	/**
+     * Fetches customer using emailAddress. If the customer exists, just return the customer data else return ??
+     * 
+     * @param String emailAddress
+     * @return Customer Customer instance
+     * @throws Nothing
+     */
 	public Customer fetchCustomerByEmail(String emailAddress) {
 		System.out.println("CustomerDAO fetchCustomerByEmail() was called for emailAddress: '" + emailAddress + "'");
 		Customer customerFromDB = null;
@@ -135,6 +142,7 @@ public class CustomerDAO {
 	}
 
 	// update phone number
+	@Deprecated
 	public Customer updateCustomer(String emailAddress, String phoneNumber) {
 		System.out.println("Customer DAO updateCustomer called with email and phone");
 		Customer updatedCustomer = null;
