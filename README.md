@@ -1,23 +1,26 @@
 **Overview**  
-**Note: Requires MySQL Instance**  
-**Can insert seed data**  
-**Adjust hibernate cfg file content according to your MySQL db instance**  
+<b>This is a rest api implementation using JAX-RS Jersey framework. No Tomcat needed as it is standalone app and has a database as well.</b>  
+**Note: Requires MySQL Instance.**  
+**It is possible to insert seed data.**  
+**Adjust hibernate cfg file content according to your MySQL db instance.**  
 
-1. To start the project, go to Main and run main method.  
-You should then see something like this:  
-Jersey app started with endpoints available at http://localhost:8080/
-
-2. Project developed using JDK 8, HK2 injection, Jersey Grizzly (no need of Tomcat), mapstruct for entity to dto conversion and vice versa, Hibernate to save data to database, **MySQL 8** database instance.  
-
-3. Go to src/main/resources/hibernate.cfg.xml and adjust the entry values for the DB, userName, password, hibernate.hbm2ddl.auto
+1. Go to src/main/resources/hibernate.cfg.xml and adjust the entry values for the DB, userName, password, hibernate.hbm2ddl.auto  
 For the very first run, make hibernate.hbm2ddl.auto as create and then change it once schema is created.  
 
-4. There is also a possibility of inserting seed data in the database. This is done by running the main method in CustomerDAO class.
-NOTE: Be careful, the main method will create 56 customer records in the database.
+2. There is also a possibility of inserting seed data in the database. This is done by running the main method in CustomerDAO class.  
+NOTE: Be careful, the main method will create 56 customer records in the database.  
 The actual customer creation is done by createMultipleCustomers() method in CustomerDAO class.  
 
-**End Points**
-Entry to the api is via the endpoint: http://localhost:8080/customer-api
+3. To start the project, go to Main.java in (org.abhishek.customerapi) and run main method.  
+You should then see something like this:  
+Jersey app started with endpoints available at http://localhost:8080/  
+Now the api is running, and you could use postman to try the endpoints it offers.  
+
+4. Project developed using JDK 8, HK2 injection, Jersey Grizzly (no need of Tomcat), mapstruct for entity to dto conversion and vice versa, Hibernate to save data to database, **MySQL 8** database instance.  
+
+
+**API End Points**  
+Entry to the api is via the endpoint: http://localhost:8080/customer-api  
 
 Available end points (mostly happy paths have been implemented and a few negative paths as well):  
 a) /register: (POST) This creates a new customer or returns the customer if it exists. EmailAddress is the primary key.  
@@ -26,11 +29,11 @@ c) /customer: (PUT) Customer can update phone number (free format) and date of b
 d) /customer/pagecust_1_@gmail.com: (DELETE) De-registers a customer.
 e) /allCustomersPaginated?page=2 (or /allCustomersPaginated): Paginated customer list from the Database. It will return first 10 records as page 1. Provide query parameter "page=2" to get the page 2 result set. 
 
-**Minor Info**
-HTTP Status code is also sent in response.
-Also one header is sent in some cases (just for trial)
+**Minor Info**  
+HTTP Status code is also sent in response.  
+Also one header is sent in some cases (just for trial)  
 
-**Example JSON**
+**Example JSON**  
 POST request:  
 {
     "customerName": "John Doe",
@@ -49,8 +52,7 @@ GET Response:
     }
 
 **Rainy Day Scenarios**
-1. If a customer doesn't exist while searching, removing(de-registering) then return proper exception. (Works in postman and rest client in the test class)
-
+1. If a customer doesn't exist while searching, removing(de-registering) then return proper exception. (Works in postman and rest client in the test class)  
 
 **Requirements**
 
