@@ -50,7 +50,8 @@ public class CustomerResourceTest {
         System.out.println("setUp completed");
     }
     
-    @After
+    @SuppressWarnings("deprecation")
+	@After
     public void tearDown() throws Exception {
         server.stop();
         System.out.println("teardown completed");

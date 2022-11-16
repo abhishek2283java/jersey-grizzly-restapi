@@ -39,13 +39,15 @@ public class CustomerResourceCreateMultipleCustomersTest {
         System.out.println("setUp completed");
     }
     
-    @After
+    @SuppressWarnings("deprecation")
+	@After
     public void tearDown() throws Exception {
         server.stop();
         System.out.println("teardown completed");
     }
     
-    @Test
+    @SuppressWarnings("unused")
+	@Test
     public void test_create_multiple_Customers_for_Pagination_Testing1() {
     	int numberOfCustObjects = 10;
     	List<Customer> customers = createCustomerObjects(numberOfCustObjects);

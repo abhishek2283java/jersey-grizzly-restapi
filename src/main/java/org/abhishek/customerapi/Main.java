@@ -1,16 +1,15 @@
 package org.abhishek.customerapi;
 
+import java.io.IOException;
+import java.net.URI;
+
 import org.abhishek.customerapi.dao.CustomerDAO;
 import org.abhishek.customerapi.service.CustomerService;
 import org.abhishek.customerapi.service.CustomerServiceImpl;
-import org.abhishek.customerapi.util.HibernateUtils;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-
-import java.io.IOException;
-import java.net.URI;
 
 /**
  * Main class.
@@ -50,7 +49,8 @@ public class Main {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    @SuppressWarnings("deprecation")
+	public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with endpoints available at "
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
