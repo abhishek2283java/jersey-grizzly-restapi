@@ -1,7 +1,7 @@
-**Overview**
-**Note: Requires MySQL Instance**
-**Can insert seed data**
-**Adjust hibernate cfg file content according to your MySQL db instance**
+**Overview**  
+**Note: Requires MySQL Instance**  
+**Can insert seed data**  
+**Adjust hibernate cfg file content according to your MySQL db instance**  
 
 1. To start the project, go to Main and run main method.  
 You should then see something like this:  
