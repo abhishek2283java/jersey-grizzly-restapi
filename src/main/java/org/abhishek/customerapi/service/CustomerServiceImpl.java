@@ -1,6 +1,8 @@
 package org.abhishek.customerapi.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -16,6 +18,10 @@ public class CustomerServiceImpl implements CustomerService{
 	@Inject
 	private CustomerDAO customerDAO;
 	
+	public CustomerServiceImpl() {
+		System.out.println("CustomerServiceImpl constructor invoked");
+	}
+	
 	@Override
 	public List<Customer> fetchAllCustomers() {
 		System.out.println("CustomerServiceImpl fetchAllCustomers() called");
@@ -28,18 +34,19 @@ public class CustomerServiceImpl implements CustomerService{
      * Queries a customer using emailAddress. If the customer exists, just return the customer data else return null
      * 
      * @param String emailAddress
-     * @return Customer Customer Entity instance
+     * @return Optional<Customer> Customer Entity instance
      * @throws Nothing
      */
 	@Override
-	public Customer fetchCustomerByEmail(String emailAddress) {
+	public Optional<Customer> fetchCustomerByEmail(String emailAddress) {
 		System.out.println("Customer Service Impl fetchCustomerByEmail() called for emailAddress '" + emailAddress + "'");
-		Customer customer = customerDAO.fetchCustomerByEmail(emailAddress);
-		return customer;
+		Optional<Customer> optionalCustomer = customerDAO.fetchCustomerByEmail(emailAddress);
+		optionalCustomer.ifPresent((c) -> System.out.println("Customer Service Impl fetchCustomerByEmail found customer: " + c));
+		return optionalCustomer;
 	}
 
 	@Override
-	public Customer createCustomer(Customer customer) throws Exception {
+	public Customer createCustomer(Customer customer){
 		System.out.println("Customer Service Impl createCustomer called");
 		Customer savedCustomer = customerDAO.saveCustomer(customer);
 		System.out.println("Customer Service Impl createCustomer returning createdCustomer: " + savedCustomer);
@@ -56,36 +63,28 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Customer registerCustomer(Customer customer) throws Exception {
+	public Customer registerCustomer(Customer customer) {
 		System.out.println("Customer Service Impl registerCustomer called");
-		Customer customerFromDB = fetchCustomerByEmail(customer.getEmailAddress());
-		if(customerFromDB == null) {
-			customerFromDB = createCustomer(customer);
-		} else {
-			System.out.println("Customer with email '" + customer.getEmailAddress() + "' is already registered");
-		}
-		return customerFromDB;
+		//Customer customerFromDB = fetchCustomerByEmail(customer.getEmailAddress()).get();	
+		Customer createdCustomer = fetchCustomerByEmail(customer.getEmailAddress())
+				.orElseGet(() -> createCustomer(customer));
+		System.out.println("CustomerServiceImpl registerCustomer returning customer: " + createdCustomer);
+		return createdCustomer;
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer) {
+	public Optional<Customer> updateCustomer(Customer customer) {
 		System.out.println("Customer Service Impl updateCustomer called");
-		Customer updatedCustomer = customerDAO.updateCustomer(customer);
+		Customer updatedCustomer = customerDAO.updateCustomer(customer).orElseGet(() -> null);
 		System.out.println("Customer Service Impl updateCustomer returning updateCustomer: " + updatedCustomer);
-		return updatedCustomer;
+		//return Optional.empty();
+		return Optional.ofNullable(updatedCustomer);
 	}
 
 	@Override
-	public Customer deregisterCustomer(String emailAddress) {
+	public Optional<Customer> deregisterCustomer(String emailAddress) {
 		System.out.println("Customer Service Impl deregisterCustomer called");
-		Customer removeCustomer = customerDAO.removeCustomer(emailAddress);
-		if(removeCustomer != null) {
-			System.out.println("Customer Service Impl deregisterCustomer returning removedCustomer: " + removeCustomer);
-		} else {
-			System.out.println("Customer Service Impl deregisterCustomer returning null removedCustomer");
-		}
-		
-		return removeCustomer;
+		return customerDAO.removeCustomer(emailAddress);
 	}
 
 	@Override
@@ -93,6 +92,14 @@ public class CustomerServiceImpl implements CustomerService{
 		System.out.println("Customer Service Impl fetchAllCustomersPaginated called");
 		List<Customer> customers = customerDAO.fetchAllCustomersPaginated(page);
 		System.out.println("Customer Service Impl fetchAllCustomersPaginated returning customers with size: " + customers.size());
+		return customers;
+	}
+
+	@Override
+	public List<Customer> fetchCustomersByDateOfBirth(Date dateOfBirthAsDate) {
+		System.out.println("Customer Service Impl fetchCustomersByDateOfBirth called");
+		List<Customer> customers = customerDAO.fetchCustomersByDateOfBirth(dateOfBirthAsDate);
+		System.out.println("Customer Service Impl fetchCustomersByDateOfBirth returning customers with size: " + customers.size());
 		return customers;
 	}
 

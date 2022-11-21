@@ -38,7 +38,7 @@ public class CustomerResourceTest {
         //Client c = ClientBuilder.newClient();
         ClientBuilder clientBuilder = ClientBuilder.newBuilder();
         Client client = clientBuilder.build();
-        target = client.target("http://localhost:8080/customer-api");
+        target = client.target("http://localhost:8080/customer-api/v2");
 
         // uncomment the following line if you want to enable
         // support for JSON in the client (you also have to uncomment
@@ -124,7 +124,7 @@ public class CustomerResourceTest {
     @Test
     public void test_update_a_customer_with_DOB_and_phoneNumber_Method2() {
     	CustomerDTO customerDTO = new CustomerDTO();
-    	customerDTO.setEmailAddress("abc004client@gmail.com");
+    	customerDTO.setEmailAddress("marie_montessori@gmail.com");
     	customerDTO.setDateOfBirth("1987-01-01");
     	customerDTO.setPhoneNumber("0046765994362");
     	
@@ -141,11 +141,11 @@ public class CustomerResourceTest {
 //                .put(Entity.entity(customerDTO, MediaType.APPLICATION_JSON));
     	
     	CustomerDTO updatedDTO = buildPut.invoke(CustomerDTO.class);
-    	System.out.println("Received response in test method");
+    	System.out.println("Received response in test method for update Customer");
     	//CustomerDTO updatedDTO = response.readEntity(CustomerDTO.class);
    
     	System.out.println("Updated Customer is has new phone = " + updatedDTO.getPhoneNumber());
-    	assertEquals("0046765994361", updatedDTO.getPhoneNumber());
+    	assertEquals("0046765994362", updatedDTO.getPhoneNumber());
     }
     
     @Test
@@ -168,7 +168,7 @@ public class CustomerResourceTest {
     
     @Test
     public void test_search_a_customer_using_emailAddress() {
-    	String emailAddress = "abc004client@gmail.com";
+    	String emailAddress = "pagecust_10_@gmail.com";
 
 //        GregorianCalendar gc = new GregorianCalendar(2012, 3, 4);
 //        Date dob = gc.getTime();

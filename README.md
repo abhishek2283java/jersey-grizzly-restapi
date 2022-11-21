@@ -20,14 +20,18 @@ Now the api is running, and you could use postman to try the endpoints it offers
 
 
 **API End Points**  
-Entry to the api is via the endpoint: http://localhost:8080/customer-api  
+Entry to the api is via the endpoint: http://localhost:8080/customer-api/v2  
 
 Available end points (mostly happy paths have been implemented and a few negative paths as well):  
-a) /register: (POST) This creates a new customer or returns the customer if it exists. EmailAddress is the primary key.  
-b) /customer?emailAddress=pagecust_1_@gmail.com: (GET) Seraches for a customer using email address and returns the customer info or customer not found message.  
-c) /customer: (PUT) Customer can update phone number (free format) and date of birth YYYY-MM-DD format when invoking the api.    
-d) /customer/pagecust_1_@gmail.com: (DELETE) De-registers a customer.  
-e) /allCustomersPaginated?page=2 (or /allCustomersPaginated): Paginated customer list from the Database. It will return first 10 records as page 1. Provide query parameter "page=2" to get the page 2 result set. 
+**Branch java8refactoring has the urls:**  
+a) /register: (POST) http://localhost:8080/customer-api/v2/customer/register  
+b) /allCustomers: (GET) http://localhost:8080/customer-api/v2/customer/allCustomers?page=2  
+Paginated customer list from the Database. It will return first 10 records as page 1. Provide query parameter "page=2" to get the page 2 result set.  
+c) /deregister: (DELETE) http://localhost:8080/customer-api/v2/customer/deregister/johndoe@ema.com  
+d) /customer?emailAddress: (GET)http://localhost:8080/customer-api/v2/customer?emailAddress=johndoe%40ema5.com  
+e) /dateOfBirthGreaterThan: (GET) http://localhost:8080/customer-api/v2/customer/dateOfBirthGreaterThan/2000-01-01
+f) /update: (PUT): http://localhost:8080/customer-api/v2/customer/update
+
 
 **Minor Info**  
 HTTP Status code is also sent in response.  
@@ -49,10 +53,18 @@ GET Response:
     "dateOfBirth": "2010-06-12",
     "emailAddress": "johndoe3@gmail.com",
     "phoneNumber": "001800500400"
-    }
+}
+    
+PUT request:
+{
+    "emailAddress": "johndoe@ema.com",
+    "dateOfBirth": "2010-06-12",
+    "phoneNumber": "0046777555666"
+}
 
 **Rainy Day Scenarios**
-1. If a customer doesn't exist while searching, removing(de-registering) then return proper exception. (Works in postman and rest client in the test class)  
+1. If a customer doesn't exist while searching, removing(de-registering) then return proper exception. (Works in postman and rest client in the test class)
+2. If there are no customers matching the dateOfBirth search then return proper exception (Works in postman)  
 
 **Requirements**
 
@@ -90,6 +102,11 @@ Test Cases:
 Test Methods:
 
 Tech Note:
+Negative scenraios handled:
+a) If there is no customer recored in DB matching the email then DAO will return empty optional and it will reach controller/resource and resource will show message in the response.  
+
+BUG:
+BUG_01: (To implement)When customer doesn't has a phone number and/or date of birth then these fields are not returned in the postman response. How about rest client?
 
 Status: To do/Done
 Requirement Finished On:
@@ -167,7 +184,7 @@ What HTTP status code should be returned when a customer is already existing? TB
 Status: To do/Done
 Requirement Finished On:
 **************************************
-REQ-2022-11-16-005: When de-registering a customer, if the customer does not exist then return an exception to the client stating that the customer was not found.
+REQ-2022-11-16-007: When de-registering a customer, if the customer does not exist then return an exception to the client stating that the customer was not found.
 
 Requirement Added on: 2022-11-16
 
@@ -184,9 +201,9 @@ Tech Note: From DAO class throwing DataNotFoundException and it shows correctly 
 Status: To do/Done
 Requirement Finished On:
 **************************************
-REQ-2022-11-15-005: Brief requirement one-liner
+REQ-2022-11-21-008: It should be possible to search customers whose date of birth is greater than a certain date 
 
-Requirement Added on: YYYY-MM-DD
+Requirement Added on: 2022-11-21
 
 Business Requirement: Detailed Requirement
 
@@ -196,16 +213,16 @@ Test Cases:
 
 Test Methods:
 
-Tech Note: 
+Tech Note: the input date has to be in format yyyy-mm-dd
 
-Status: To do/Done
+Status: Done
 Requirement Finished On:
 **************************************
-REQ-2022-11-15-005: Brief requirement one-liner
+REQ-2022-11-21-009: Return the location of the created resource/entity when a customer is registered
 
-Requirement Added on: YYYY-MM-DD
+Requirement Added on: 2022-11-21
 
-Business Requirement: Detailed Requirement
+Business Requirement: Returning the location of created resource using uriInfo
 
 Implementation Method Name:
 
@@ -214,6 +231,10 @@ Test Cases:
 Test Methods:
 
 Tech Note: 
+URI createdUri = uriInfo.getBaseUriBuilder()
+			.path(CustomerResource.class)
+			.path(CustomerResource.class, "fetchCustomerByEmailReturnResponse")
+			.queryParam("emailAddress", createdCustomerDTO.getEmailAddress()).build();
 
 Status: To do/Done
 Requirement Finished On:

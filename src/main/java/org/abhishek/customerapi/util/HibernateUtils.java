@@ -22,10 +22,12 @@ public class HibernateUtils {
 				Metadata metadata = metadataSources.getMetadataBuilder().build();
 				sessionFactory = metadata.getSessionFactoryBuilder().build();
 			} catch(Exception e) {
+				System.out.println("Exception happened during creation of Session Factory: " + e.getMessage());
 				e.printStackTrace();
 				if(standardServiceRegistry != null) {
 					StandardServiceRegistryBuilder.destroy(standardServiceRegistry);
 				}
+				throw new IllegalStateException("Session Factory could not be initialized", e);
 			}
 			
 		}

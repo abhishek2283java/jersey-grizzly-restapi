@@ -8,12 +8,12 @@ import javax.ws.rs.ext.Provider;
 import org.abhishek.customerapi.model.ErrorMessage;
 
 @Provider
-public class DataNotFoundExceptionMapper implements ExceptionMapper<DataNotFoundException> {
+public class CustomerAPIInvalidInputExceptionMapper implements ExceptionMapper<CustomerAPIInvalidInputException> {
 
 	@Override
-	public Response toResponse(DataNotFoundException exception) {
-		ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(), 404, "http://dummywebee.com");
-		return Response.status(Status.NOT_FOUND)
+	public Response toResponse(CustomerAPIInvalidInputException exception) {
+		ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(), 401, "http://dummyweb.com");
+		return Response.status(Status.BAD_REQUEST)
 				.header("PoweredBy", "ABC-Tech")
 				.entity(errorMessage)
 				.build();

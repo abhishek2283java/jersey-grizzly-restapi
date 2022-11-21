@@ -8,12 +8,12 @@ import javax.ws.rs.ext.Provider;
 import org.abhishek.customerapi.model.ErrorMessage;
 
 @Provider
-public class DataNotFoundExceptionMapper implements ExceptionMapper<DataNotFoundException> {
+public class CustomerNotUpdatedExceptionMapper implements ExceptionMapper<CustomerNotUpdatedException> {
 
 	@Override
-	public Response toResponse(DataNotFoundException exception) {
-		ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(), 404, "http://dummywebee.com");
-		return Response.status(Status.NOT_FOUND)
+	public Response toResponse(CustomerNotUpdatedException exception) {
+		ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(), 500, "http://dummyweb.com");
+		return Response.status(Status.INTERNAL_SERVER_ERROR)
 				.header("PoweredBy", "ABC-Tech")
 				.entity(errorMessage)
 				.build();

@@ -6,6 +6,7 @@ import java.net.URI;
 import org.abhishek.customerapi.dao.CustomerDAO;
 import org.abhishek.customerapi.service.CustomerService;
 import org.abhishek.customerapi.service.CustomerServiceImpl;
+import org.abhishek.customerapi.util.HibernateUtils;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -38,7 +39,6 @@ public class Main {
                 //bind(HibernateUtils.class).to(HibernateUtils.class);
             }
         });
-
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), config);
